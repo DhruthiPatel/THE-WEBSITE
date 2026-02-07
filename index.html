@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Gunda - Until I Found You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Nothing+You+Could+Do&family=Satisfy&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pastel-red: #ffb3ba;
+      --pastel-red-dark: #ff9aa2;
+      --pastel-red-light: #ffd1d6;
+      --cream: #fff5f5;
+      --paper: #fffafa;
+      --ink: #5c3a3a;
+      --brown: #8b6b61;
+      --accent: #c97f7f;
+      --shadow: rgba(0,0,0,0.12);
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    body {
+      font-family: 'Crimson Text', serif;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--pastel-red-light) 100%);
+      color: var(--ink);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.015) 2px, rgba(0,0,0,.015) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.015) 2px, rgba(0,0,0,.015) 4px);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+    }
+
+    /* Floating petals */
+    .petal {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(ellipse at center, var(--pastel-red) 0%, var(--pastel-red-dark) 100%);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      animation: petalFall linear infinite;
+    }
+
+    @keyframes petalFall {
+      0% { opacity: 0; transform: translateY(-10vh) translateX(0) rotate(0deg); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(110vh) translateX(100px) rotate(360deg); }
+    }
+
+    /* Opening page animation */
+    #page-cover {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, var(--paper), var(--pastel-red-light));
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 1.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transform-origin: left center;
+    }
+
+    #page-cover.turn {
+      transform: perspective(2500px) rotateY(-95deg);
+    }
+
+    #cover-text {
+      text-align: center;
+      animation: coverFadeIn 1.2s ease-out;
+    }
+
+    #cover-text h1 {
+      font-family: 'Satisfy', cursive;
+      font-size: clamp(3.5rem, 11vw, 7rem);
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    #cover-text p {
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--brown);
+    }
+
+    @keyframes coverFadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Main content */
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      opacity: 0;
+      animation: heroFade 2s ease-out 2.2s forwards;
+    }
+
+    @keyframes heroFade {
+      to { opacity: 1; }
+    }
+
+    .hero h1 {
+      font-family: 'Satisfy', cursive;
+      font-size: clamp(4.5rem, 13vw, 9rem);
+      color: var(--accent);
+      margin-bottom: 1rem;
+      position: relative;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+      animation: heroBreath 4s ease-in-out infinite;
+    }
+
+    @keyframes heroBreath {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    .hero h1::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 4px;
+      background: linear-gradient(to right, transparent, var(--pastel-red), transparent);
+      opacity: 0.5;
+    }
+
+    .hero p {
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--brown);
+      margin-top: 2rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Crimson Text', serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-style: italic;
+      color: var(--accent);
+      margin-top: 2rem;
+      opacity: 0.8;
+      max-width: 600px;
+    }
+
+    /* Doodles */
+    .doodle {
+      position: absolute;
+      opacity: 0.2;
+      pointer-events: none;
+      animation: doodlePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes doodlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.2; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+
+    .doodle-heart {
+      font-size: 2.5rem;
+      color: var(--pastel-red);
+    }
+
+    /* Timer - Handwritten Journal Style */
+    .timer-section {
+      margin: 10rem auto;
+      max-width: 800px;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 1.2s ease-out;
+    }
+
+    .timer-section.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .journal-entry {
+      background: var(--paper);
+      border-left: 4px solid var(--pastel-red);
+      border-right: 1px solid rgba(0,0,0,0.05);
+      padding: 3rem;
+      box-shadow: 
+        -5px 0 15px rgba(0,0,0,0.05),
+        5px 5px 20px var(--shadow);
+      position: relative;
+      background-image: 
+        repeating-linear-gradient(
+          transparent,
+          transparent 31px,
+          rgba(255,179,186,0.15) 31px,
+          rgba(255,179,186,0.15) 32px
+        );
+      line-height: 32px;
+    }
+
+    .journal-entry::before {
+      content: '';
+      position: absolute;
+      left: 60px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255,179,186,0.2);
+    }
+
+    .journal-date {
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      padding-left: 80px;
+    }
+
+    #timer-display {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 2.2;
+      color: var(--ink);
+      font-weight: 600;
+      padding-left: 80px;
+    }
+
+    #timer-display strong {
+      color: var(--accent);
+      font-size: 1.15em;
+      text-decoration: underline;
+      text-decoration-color: var(--pastel-red);
+      text-decoration-style: wavy;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin: 8rem 0 5rem;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: all 1s ease-out;
+    }
+
+    .section-header.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header h2 {
+      font-family: 'Satisfy', cursive;
+      font-size: clamp(3.5rem, 9vw, 6rem);
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section-header p {
+      font-family: 'Crimson Text', serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      color: var(--brown);
+      font-style: italic;
+      opacity: 0.8;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .section-header::after {
+      content: '♥';
+      display: block;
+      font-size: 2rem;
+      color: var(--pastel-red);
+      margin-top: 1rem;
+      animation: heartBeat 2s ease-in-out infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      10%, 30% { transform: scale(1.1); }
+      20%, 40% { transform: scale(0.95); }
+    }
+
+    /* Year Headers */
+    .year-header {
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+      color: var(--accent);
+      margin: 5rem 0 3rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateX(-120px) rotate(-3deg);
+      transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .year-header.reveal {
+      opacity: 1;
+      transform: translateX(0) rotate(0deg);
+    }
+
+    /* Masonry Photo Gallery */
+    .photo-grid {
+      column-count: 3;
+      column-gap: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    @media (max-width: 1024px) {
+      .photo-grid { column-count: 2; }
+    }
+
+    @media (max-width: 640px) {
+      .photo-grid { column-count: 1; }
+    }
+
+    .photo-item {
+      break-inside: avoid;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(60px) rotate(0deg) scale(0.95);
+      transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .photo-item.reveal {
+      opacity: 1;
+      transform: translateY(0) rotate(var(--tilt, 0deg)) scale(1);
+    }
+
+    .polaroid {
+      background: white;
+      padding: 1.2rem;
+      padding-bottom: 3.5rem;
+      box-shadow: 
+        0 5px 12px var(--shadow),
+        0 12px 25px rgba(255,179,186,0.15);
+      transform: rotate(var(--tilt, 0deg));
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .polaroid:hover {
+      transform: rotate(0deg) translateY(-12px) scale(1.05);
+      box-shadow: 
+        0 12px 24px var(--shadow),
+        0 25px 50px rgba(255,154,162,0.3);
+      z-index: 10;
+    }
+
+    .polaroid img {
+      width: 100%;
+      display: block;
+      border: 1px solid #f8f8f8;
+    }
+
+    .polaroid::after {
+      content: attr(data-caption);
+      position: absolute;
+      bottom: 1rem;
+      left: 1.2rem;
+      right: 1.2rem;
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: 1.1rem;
+      color: var(--brown);
+      text-align: center;
+      opacity: 0.75;
+    }
+
+    .placeholder-photo {
+      background: linear-gradient(135deg, var(--pastel-red-light), #ffe5e7);
+      aspect-ratio: 4/5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2.5rem;
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: 1.3rem;
+      color: var(--brown);
+      opacity: 0.8;
+      border: 1px solid var(--pastel-red);
+      line-height: 1.6;
+    }
+
+    /* Messages Section */
+    .messages-section {
+      max-width: 850px;
+      margin: 10rem auto;
+    }
+
+    .envelope-container {
+      perspective: 1200px;
+      margin: 4rem auto;
+      max-width: 650px;
+      opacity: 0;
+      transform: translateY(100px) rotateX(10deg);
+      transition: all 1.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .envelope-container.reveal {
+      opacity: 1;
+      transform: translateY(0) rotateX(0deg);
+    }
+
+    .envelope {
+      background: linear-gradient(to bottom, var(--paper), #fff8f8);
+      border: 2px solid var(--pastel-red);
+      border-radius: 12px;
+      padding: 3.5rem 3rem;
+      box-shadow: 
+        0 10px 30px var(--shadow),
+        inset 0 1px 0 rgba(255,255,255,0.7);
+      position: relative;
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .envelope:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 15px 40px rgba(0,0,0,0.15),
+        0 25px 60px rgba(255,179,186,0.25);
+    }
+
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: 
+        linear-gradient(135deg, transparent 30px, var(--pastel-red-light) 0) top left,
+        linear-gradient(-135deg, transparent 30px, var(--pastel-red-light) 0) top right;
+      background-size: 51% 100%;
+      background-repeat: no-repeat;
+      opacity: 0.3;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .envelope::after {
+      content: '✉';
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 2.5rem;
+      opacity: 0.2;
+      animation: envelopeBob 3s ease-in-out infinite;
+    }
+
+    @keyframes envelopeBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .message-text {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.5rem;
+      line-height: 2.2;
+      color: var(--ink);
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .message-counter {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: 1.3rem;
+      color: var(--brown);
+      opacity: 0.75;
+    }
+
+    .wax-seal {
+      display: inline-block;
+      width: 45px;
+      height: 45px;
+      background: var(--pastel-red-dark);
+      border-radius: 50%;
+      position: relative;
+      margin: 0 0.4rem 0.5rem;
+      opacity: 0.25;
+      transition: all 0.4s ease;
+      border: 2px solid var(--pastel-red);
+    }
+
+    .wax-seal.unlocked {
+      opacity: 1;
+      background: var(--pastel-red);
+      box-shadow: 0 0 15px var(--pastel-red);
+      animation: sealGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes sealGlow {
+      0%, 100% { box-shadow: 0 0 15px var(--pastel-red); }
+      50% { box-shadow: 0 0 25px var(--pastel-red-dark); }
+    }
+
+    .wax-seal::after {
+      content: '♥';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    /* Notification Bell */
+    .notification-setup {
+      margin-top: 3rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out 0.5s;
+    }
+
+    .notification-setup.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .bell-button {
+      background: linear-gradient(135deg, var(--pastel-red), var(--pastel-red-dark));
+      border: none;
+      border-radius: 50px;
+      padding: 1.2rem 2.5rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255,179,186,0.4);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 700;
+    }
+
+    .bell-button:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(255,154,162,0.5);
+    }
+
+    .bell-button.active {
+      background: linear-gradient(135deg, #90ee90, #32cd32);
+    }
+
+    .bell-icon {
+      font-size: 1.8rem;
+      animation: bellRing 2s ease-in-out infinite;
+    }
+
+    @keyframes bellRing {
+      0%, 90%, 100% { transform: rotate(0deg); }
+      92%, 96% { transform: rotate(-10deg); }
+      94%, 98% { transform: rotate(10deg); }
+    }
+
+    /* Hug Button Section */
+    .hug-section {
+      text-align: center;
+      margin: 10rem auto;
+      max-width: 700px;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 1.2s ease-out;
+    }
+
+    .hug-section.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stamp-button {
+      background: white;
+      border: 4px solid var(--pastel-red);
+      border-radius: 12px;
+      padding: 2rem 4rem;
+      font-family: 'Satisfy', cursive;
+      font-size: 2.5rem;
+      color: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 6px 18px var(--shadow);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      margin: 2.5rem 0;
+    }
+
+    .stamp-button::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border: 3px dashed var(--pastel-red);
+      border-radius: 16px;
+      opacity: 0.4;
+    }
+
+    .stamp-button:hover {
+      transform: translateY(-6px) rotate(-3deg) scale(1.05);
+      box-shadow: 0 12px 30px rgba(255,179,186,0.3);
+      border-color: var(--pastel-red-dark);
+    }
+
+    .stamp-button:active {
+      transform: scale(0.95);
+    }
+
+    .hug-display {
+      font-size: 7rem;
+      margin: 2.5rem 0;
+      opacity: 0;
+      transform: scale(0) rotate(-45deg);
+      transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .hug-display.show {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .hug-counter {
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: 1.7rem;
+      color: var(--brown);
+      margin-top: 1.5rem;
+    }
+
+    /* Map Section */
+    .map-section {
+      margin: 10rem auto;
+      max-width: 1100px;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 1.2s ease-out;
+    }
+
+    .map-section.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .world-map-container {
+      background: white;
+      border: 8px solid white;
+      border-radius: 8px;
+      box-shadow: 
+        0 10px 35px var(--shadow),
+        inset 0 0 0 1px rgba(0,0,0,0.05);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .map-wrapper {
+      position: relative;
+      height: 600px;
+      background: linear-gradient(to bottom, #e8f4f8 0%, #d4e8f0 50%, #c9e0e8 100%);
+    }
+
+    .world-map {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+
+    .flight-path {
+      position: absolute;
+      stroke: var(--pastel-red);
+      stroke-width: 3;
+      fill: none;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawPath 4s ease-in-out forwards, pathPulse 3s ease-in-out 4s infinite;
+      filter: drop-shadow(0 0 8px rgba(255,179,186,0.6));
+    }
+
+    @keyframes drawPath {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes pathPulse {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 0.6; }
+    }
+
+    .city-marker {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      transform: translate(-50%, -50%);
+      animation: markerPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes markerPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.15); }
+    }
+
+    .city-marker::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--pastel-red);
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 
+        0 4px 12px var(--shadow),
+        0 0 0 8px rgba(255,179,186,0.3);
+    }
+
+    .city-marker::after {
+      content: attr(data-city);
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--ink);
+      background: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      box-shadow: 0 3px 10px var(--shadow);
+      border: 2px solid var(--pastel-red-light);
+    }
+
+    .plane-icon {
+      position: absolute;
+      font-size: 3rem;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+      animation: planeMove 8s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes planeMove {
+      0% { 
+        left: 30%; 
+        top: 70%; 
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      50% { 
+        left: 50%; 
+        top: 40%; 
+        transform: translate(-50%, -50%) rotate(-30deg) scale(1.1);
+      }
+      100% { 
+        left: 70%; 
+        top: 30%; 
+        transform: translate(-50%, -50%) rotate(-15deg);
+      }
+    }
+
+    .map-caption {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'Crimson Text', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--brown);
+      background: var(--paper);
+    }
+
+    /* Music Toggle */
+    .music-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--pastel-red), var(--pastel-red-dark));
+      border: 4px solid white;
+      border-radius: 50%;
+      box-shadow: 0 6px 20px rgba(255,179,186,0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      z-index: 100;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .music-toggle:hover {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 8px 30px rgba(255,154,162,0.6);
+    }
+
+    .music-info {
+      position: fixed;
+      bottom: 2rem;
+      right: 6rem;
+      background: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      font-family: 'Nothing You Could Do', cursive;
+      font-size: 1.1rem;
+      color: var(--brown);
+      box-shadow: 0 4px 15px var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+      z-index: 99;
+      white-space: nowrap;
+    }
+
+    .music-info.show {
+      opacity: 1;
+      right: 7rem;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal img {
+      max-width: 95%;
+      max-height: 95vh;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+      border: 15px solid white;
+      border-radius: 4px;
+      animation: modalImgZoom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalImgZoom {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Reply Modal */
+    .reply-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+
+    .reply-content {
+      background: var(--paper);
+      border: 4px solid var(--pastel-red);
+      border-radius: 16px;
+      padding: 3.5rem;
+      max-width: 650px;
+      width: 90%;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+      animation: modalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalSlideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .reply-content h3 {
+      font-family: 'Satisfy', cursive;
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .reply-textarea {
+      width: 100%;
+      min-height: 220px;
+      padding: 1.8rem;
+      border: 3px solid var(--pastel-red-light);
+      border-radius: 12px;
+      font-family: 'Crimson Text', serif;
+      font-size: 1.3rem;
+      background: white;
+      resize: vertical;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .reply-textarea:focus {
+      outline: none;
+      border-color: var(--pastel-red);
+      box-shadow: 0 0 0 4px rgba(255,179,186,0.2);
+    }
+
+    .reply-buttons {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: flex-end;
+    }
+
+    .reply-buttons button {
+      padding: 1rem 2.5rem;
+      border: 3px solid var(--pastel-red);
+      border-radius: 30px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-weight: 700;
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, var(--pastel-red), var(--pastel-red-dark));
+      color: white;
+      border-color: var(--pastel-red-dark);
+    }
+
+    .send-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(255,179,186,0.4);
+    }
+
+    .close-btn {
+      background: white;
+      color: var(--accent);
+    }
+
+    .close-btn:hover {
+      background: var(--pastel-red-light);
+      transform: translateY(-3px);
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, var(--pastel-red), var(--pastel-red-dark));
+      color: white;
+      padding: 1.3rem 2.5rem;
+      border-radius: 50px;
+      box-shadow: 0 6px 25px rgba(255,179,186,0.5);
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      z-index: 1001;
+      display: none;
+      animation: notifSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-weight: 700;
+      border: 3px solid white;
+    }
+
+    @keyframes notifSlideIn {
+      from { transform: translateX(500px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Loading animation */
+    .loading-heart {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      z-index: 10000;
+      animation: heartBeatLoading 1s ease-in-out infinite;
+      display: none;
+    }
+
+    @keyframes heartBeatLoading {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.3); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main { padding: 0 1rem; }
+      .journal-entry { padding: 2rem 1.5rem; }
+      .journal-date, #timer-display { padding-left: 40px; }
+      .journal-entry::before { left: 30px; }
+      .polaroid { padding: 1rem; padding-bottom: 3rem; }
+      .map-wrapper { height: 400px; }
+      .plane-icon { font-size: 2rem; }
+      .music-info { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Page Cover -->
+<div id="page-cover">
+  <div id="cover-text">
+    <h1>For Gunda</h1>
+    <p>Until I Found You ✈️</p>
+  </div>
+</div>
+
+<!-- Floating petals -->
+<div class="petal" style="left: 10%; animation-duration: 18s; animation-delay: 0s;"></div>
+<div class="petal" style="left: 30%; animation-duration: 22s; animation-delay: 3s;"></div>
+<div class="petal" style="left: 50%; animation-duration: 20s; animation-delay: 7s;"></div>
+<div class="petal" style="left: 70%; animation-duration: 24s; animation-delay: 2s;"></div>
+<div class="petal" style="left: 90%; animation-duration: 19s; animation-delay: 5s;"></div>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="doodle doodle-heart" style="top: 18%; left: 12%;">♥</div>
+    <div class="doodle doodle-heart" style="top: 28%; right: 18%;">♥</div>
+    <div class="doodle doodle-heart" style="bottom: 35%; left: 25%;">♥</div>
+    <div class="doodle doodle-heart" style="bottom: 25%; right: 15%;">♥</div>
+    
+    <h1>For Gunda (Pujjwal)</h1>
+    <p>From Dhruthiiii 💕</p>
+    <p class="hero-subtitle">
+      "Distance means so little when someone means so much"
+    </p>
+  </section>
+
+  <!-- Timer -->
+  <section class="timer-section">
+    <div class="journal-entry">
+      <div class="journal-date">February 5th, 2026</div>
+      <div id="timer-display">
+        Dear Diary, calculating the moments...
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo Journey -->
+  <div class="section-header">
+    <h2>Our Story in Pictures</h2>
+    <p>Every photo holds a thousand unspoken words and a million cherished moments</p>
+  </div>
+
+  <h3 class="year-header">2019 - 2020 • The Beginning</h3>
+  <div class="photo-grid">
+    <div class="photo-item" style="--tilt: -2deg;">
+      <div class="polaroid">
+        <div class="placeholder-photo">
+          When we were just two souls<br>
+          finding comfort in each other's company ♥
+        </div>
+      </div>
+    </div>
+    <div class="photo-item" style="--tilt: 3deg;">
+      <div class="polaroid">
+        <div class="placeholder-photo">
+          Late night conversations<br>
+          that felt like home
+        </div>
+      </div>
+    </div>
+    <div class="photo-item" style="--tilt: -1deg;">
+      <div class="polaroid">
+        <div class="placeholder-photo">
+          The moment friendship<br>
+          whispered "what if?"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="year-header">2021 • First Chapters</h3>
+  <div class="photo-grid" id="photos-2021"></div>
+
+  <h3 class="year-header">2022 • Growing Together</h3>
+  <div class="photo-grid" id="photos-2022"></div>
+
+  <h3 class="year-header">2022 - 2024 • Our Journey</h3>
+  <div class="photo-grid" id="photos-2022-2024"></div>
+
+  <h3 class="year-header">2025 • Before the Goodbye</h3>
+  <div class="photo-grid" id="photos-2025"></div>
+
+  <!-- Messages -->
+  <section class="messages-section">
+    <div class="section-header">
+      <h2>Love Letters</h2>
+      <p>Words from my heart to yours, unlocking every 15 days like chapters of our story</p>
+    </div>
+
+    <div class="envelope-container">
+      <div class="envelope" id="message-envelope">
+        <div class="message-text" id="message-text">
+          Click to read the first letter from my heart...
+        </div>
+      </div>
+      <div class="message-counter" id="message-counter">
+        <span id="seals-display"></span><br>
+        Letter <span id="current-msg">1</span> of 26
+      </div>
+    </div>
+
+    <div class="notification-setup">
+      <button class="bell-button" id="bell-button">
+        <span class="bell-icon">🔔</span>
+        <span id="bell-text">Get reminded when new letters arrive</span>
+      </button>
+      <p style="margin-top: 1rem; font-family: 'Crimson Text', serif; font-size: 1.1rem; color: var(--brown); opacity: 0.7;">
+        I'll send a gentle reminder to your email every 15 days
+      </p>
+    </div>
+  </section>
+
+  <!-- Hug Section -->
+  <section class="hug-section">
+    <div class="section-header">
+      <h2>Miss Me?</h2>
+      <p>Click whenever you need to feel close, even across the miles</p>
+    </div>
+    
+    <button class="stamp-button" id="hug-button">
+      I need you right now 🤗
+    </button>
+    
+    <div class="hug-display" id="hug-display">🫂</div>
+    <div class="hug-counter" id="hug-counter">
+      You've needed me 0 times (and I've been here every single time)
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="map-section">
+    <div class="section-header">
+      <h2>Two Hearts, One Love</h2>
+      <p>Though oceans and continents lie between us, our hearts beat in perfect rhythm</p>
+    </div>
+
+    <div class="world-map-container">
+      <div class="map-wrapper">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg" alt="World Map" class="world-map">
+        
+        <svg class="flight-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M 30,70 Q 50,40 70,30" />
+        </svg>
+        
+        <div class="city-marker" data-city="Bengaluru 🏠" style="left: 30%; top: 70%;"></div>
+        <div class="city-marker" data-city="Glasgow ✈️" style="left: 70%; top: 30%;"></div>
+        
+        <div class="plane-icon">✈️</div>
+      </div>
+      <div class="map-caption">
+        7,234 kilometers apart, yet somehow you're the closest person to my heart
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Music Toggle -->
+<div class="music-toggle" id="music-toggle">🔊</div>
+<div class="music-info" id="music-info">♫ Until I Found You - Stephen Sanchez</div>
+
+<!-- Photo Modal -->
+<div class="modal" id="photo-modal">
+  <img id="modal-img" src="" alt="">
+</div>
+
+<!-- Reply Modal -->
+<div class="reply-modal" id="reply-modal">
+  <div class="reply-content">
+    <h3>Write Back to Dhruthiiii 💕</h3>
+    <textarea class="reply-textarea" id="reply-textarea" placeholder="Tell me everything... how are you? what made you smile today? I want to know it all..."></textarea>
+    <div class="reply-buttons">
+      <button class="close-btn" id="close-reply">Maybe Later</button>
+      <button class="send-btn" id="send-reply">Send My Heart 💌</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+  A new letter from Dhruthiiii has arrived! 💌
+</div>
+
+<!-- Loading -->
+<div class="loading-heart">💕</div>
+
+<!-- Audio -->
+<audio id="bg-music" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// PAGE TURN ANIMATION
+// ═══════════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('page-cover').classList.add('turn');
+    setTimeout(() => {
+      document.getElementById('page-cover').style.display = 'none';
+    }, 1800);
+  }, 2200);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// TIMER - Feb 5, 2026 4:00 PM IST
+// ═══════════════════════════════════════════════════════════════
+const startDate = new Date("2026-02-05T16:00:00+05:30");
+
+function updateTimer() {
+  const now = new Date();
+  const diff = now - startDate;
+  
+  if (diff < 0) {
+    document.getElementById('timer-display').innerHTML = 
+      'Dear Diary,<br>Tomorrow we say goodbye at the airport.<br>But this is not an ending... it\'s just a new chapter in our story. 💕';
+    return;
+  }
+
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById('timer-display').innerHTML = `
+    Dear Diary,<br>
+    It's been <strong>${days} days</strong>, ${hours} hours, and ${minutes} minutes<br>
+    since we said goodbye at the airport...<br>
+    Every second apart makes my heart grow fonder. (${seconds} seconds and counting)
+  `;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+// ═══════════════════════════════════════════════════════════════
+// PHOTO GALLERIES
+// ═══════════════════════════════════════════════════════════════
+const photoData = [
+  { container: 'photos-2021', folder: '2021', count: 2 },
+  { container: 'photos-2022', folder: '2022', count: 9 },
+  { container: 'photos-2022-2024', folder: '2022-2024', count: 21 },
+  { container: 'photos-2025', folder: '2025', count: 15 }
+];
+
+const tilts = [-3, -2, -1, 0, 1, 2, 3];
+
+photoData.forEach(({ container, folder, count }) => {
+  const grid = document.getElementById(container);
+  for (let i = 1; i <= count; i++) {
+    const tilt = tilts[Math.floor(Math.random() * tilts.length)];
+    const num = String(i).padStart(2, '0');
+    grid.innerHTML += `
+      <div class="photo-item" style="--tilt: ${tilt}deg;">
+        <div class="polaroid" data-caption="">
+          <img src="photos/${folder}/${num}.jpg" alt="${folder} memory ${i}" loading="lazy">
+        </div>
+      </div>
+    `;
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// SCROLL REVEAL ANIMATIONS
+// ═══════════════════════════════════════════════════════════════
+const observerOptions = {
+  threshold: 0.08,
+  rootMargin: '0px 0px -80px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('reveal');
+      if (entry.target.classList.contains('photo-item')) {
+        const delay = Array.from(entry.target.parentElement.children).indexOf(entry.target) * 120;
+        entry.target.style.transitionDelay = delay + 'ms';
+      }
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.timer-section, .section-header, .year-header, .photo-item, .envelope-container, .notification-setup, .hug-section, .map-section').forEach(el => {
+  observer.observe(el);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// PHOTO MODAL
+// ═══════════════════════════════════════════════════════════════
+const modal = document.getElementById('photo-modal');
+const modalImg = document.getElementById('modal-img');
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.polaroid img')) {
+    modalImg.src = e.target.src;
+    modal.style.display = 'flex';
+  }
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// MESSAGES SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const messages = [
+  "Hi. I miss you. Maybe it's too soon to say this, but I already feel the absence of having you around. This journey matters to you, and I truly hope it brings you happiness. I love you.",
+  "REPLY_MESSAGE",
+  "Gunda, I am so proud of you for stepping beyond your comfort zone. Remember — it's all worth it.",
+  "You can do this. I believe in you.",
+  "I missed you at Karan Aujla's show — even if I didn't say it out loud then.",
+  "I miss you. Some days, not being around you feels harder than I expected.",
+  "So… have you started cooking yet?",
+  "A quiet drink at the end of the day? I can picture it.",
+  "So proud of you. Always.",
+  "Sometimes I wonder — would you still love me if I were a dinosaur?",
+  "We might disagree sometimes, but never forget this: I love you. If I seem difficult, it's probably because I miss you.",
+  "So… is a UK visit happening soon?",
+  "I'm choosing to believe the gym is paying off.",
+  "We should plan a virtual date — if we haven't already.",
+  "You might say I don't know much, but I think this feeling is what they call love.",
+  "Call me randomly sometime — just to say you love me.",
+  "Being apart isn't easy, but look at us — we're handling it better than we thought.",
+  "Only a few more months now.",
+  "Life surprises you sometimes. I never expected to fall this deeply — especially for my best friend.",
+  "Did you miss my birthday… or is it yet to come?",
+  "Look at you — living a whole London chapter.",
+  "Feels like someone might be coming home soon.",
+  "I think it's time you became a little more emotionally expressive with me.",
+  "Are you here yet?",
+  "Not yet? I'm waiting.",
+  "You're here. And somehow, everything feels right again."
+];
+
+const UNLOCK_DAYS = 15;
+const firstOpenKey = 'firstOpenTime';
+const currentMsgKey = 'currentMessage';
+
+let firstOpen = localStorage.getItem(firstOpenKey);
+if (!firstOpen) {
+  firstOpen = Date.now();
+  localStorage.setItem(firstOpenKey, firstOpen);
+}
+
+const daysSinceFirst = Math.floor((Date.now() - firstOpen) / 86400000);
+const unlockedCount = Math.min(Math.floor(daysSinceFirst / UNLOCK_DAYS) + 1, messages.length);
+
+let currentMsgIndex = parseInt(localStorage.getItem(currentMsgKey) || '0');
+
+if (currentMsgIndex < unlockedCount - 1) {
+  const notif = document.getElementById('notification');
+  notif.style.display = 'block';
+  setTimeout(() => notif.style.display = 'none', 6000);
+}
+
+currentMsgIndex = Math.min(currentMsgIndex, unlockedCount - 1);
+
+function updateSeals() {
+  let sealsHTML = '';
+  for (let i = 0; i < messages.length; i++) {
+    sealsHTML += `<span class="wax-seal ${i < unlockedCount ? 'unlocked' : ''}"></span>`;
+    if ((i + 1) % 13 === 0) sealsHTML += '<br>';
+  }
+  document.getElementById('seals-display').innerHTML = sealsHTML;
+}
+
+function showMessage() {
+  const text = document.getElementById('message-text');
+  const counter = document.getElementById('current-msg');
+  
+  if (messages[currentMsgIndex] === 'REPLY_MESSAGE') {
+    text.innerHTML = "I really want to know how life has been for you there. If you feel like it, write something here — I'd love to read it.<br><br><em style='font-size:0.95em; opacity:0.75;'>(Click to write back to me)</em>";
+  } else {
+    text.textContent = messages[currentMsgIndex];
+  }
+  
+  counter.textContent = currentMsgIndex + 1;
+  updateSeals();
+}
+
+document.getElementById('message-envelope').addEventListener('click', () => {
+  if (messages[currentMsgIndex] === 'REPLY_MESSAGE') {
+    document.getElementById('reply-modal').style.display = 'flex';
+  } else if (currentMsgIndex < unlockedCount - 1) {
+    currentMsgIndex++;
+    localStorage.setItem(currentMsgKey, currentMsgIndex);
+    showMessage();
+  }
+});
+
+showMessage();
+
+// Reply modal
+document.getElementById('close-reply').addEventListener('click', () => {
+  document.getElementById('reply-modal').style.display = 'none';
+});
+
+document.getElementById('send-reply').addEventListener('click', () => {
+  const reply = document.getElementById('reply-textarea').value.trim();
+  if (reply) {
+    const subject = encodeURIComponent('A Letter Back from Pujjwal 💕');
+    const body = encodeURIComponent(reply);
+    window.location.href = `mailto:YOUR_EMAIL@example.com?subject=${subject}&body=${body}`;
+    
+    document.getElementById('reply-textarea').value = '';
+    document.getElementById('reply-modal').style.display = 'none';
+    
+    if (currentMsgIndex < unlockedCount - 1) {
+      currentMsgIndex++;
+      localStorage.setItem(currentMsgKey, currentMsgIndex);
+      showMessage();
+    }
+  } else {
+    alert('Please write something before sending 💕');
+  }
+});
+
+document.getElementById('reply-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'reply-modal') {
+    document.getElementById('reply-modal').style.display = 'none';
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// NOTIFICATION BELL SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const bellButton = document.getElementById('bell-button');
+const bellText = document.getElementById('bell-text');
+let notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+
+if (notificationsEnabled) {
+  bellButton.classList.add('active');
+  bellText.textContent = 'Reminders enabled ✓';
+}
+
+bellButton.addEventListener('click', () => {
+  if (!notificationsEnabled) {
+    const email = prompt('Enter your email to receive gentle reminders every 15 days when a new letter unlocks:');
+    if (email && email.includes('@')) {
+      localStorage.setItem('notificationsEnabled', 'true');
+      localStorage.setItem('notificationEmail', email);
+      notificationsEnabled = true;
+      bellButton.classList.add('active');
+      bellText.textContent = 'Reminders enabled ✓';
+      
+      // In a real implementation, you'd send this to a backend
+      // For now, we'll create a mailto with instructions
+      const subject = encodeURIComponent('Love Letter Reminder Setup');
+      const body = encodeURIComponent(`Hi! Please set up email reminders for ${email} to be sent every 15 days starting from ${new Date(firstOpen).toLocaleDateString()}. Thank you! 💕`);
+      
+      alert(`Perfect! I'll remind you at ${email} every 15 days when a new letter is ready. 💌\n\n(In a production setup, this would automatically send emails. For now, you can manually set calendar reminders!)`);
+    }
+  } else {
+    const confirm = window.confirm('Turn off email reminders?');
+    if (confirm) {
+      localStorage.removeItem('notificationsEnabled');
+      localStorage.removeItem('notificationEmail');
+      notificationsEnabled = false;
+      bellButton.classList.remove('active');
+      bellText.textContent = 'Get reminded when new letters arrive';
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// HUG COUNTER
+// ═══════════════════════════════════════════════════════════════
+let hugCount = parseInt(localStorage.getItem('hugCount') || '0');
+const hugDisplay = document.getElementById('hug-display');
+const hugCounter = document.getElementById('hug-counter');
+
+hugCounter.textContent = `You've needed me ${hugCount} times (and I've been here every single time)`;
+
+document.getElementById('hug-button').addEventListener('click', () => {
+  hugCount++;
+  localStorage.setItem('hugCount', hugCount);
+  hugCounter.textContent = `You've needed me ${hugCount} times (and I've been here every single time)`;
+  
+  hugDisplay.classList.remove('show');
+  void hugDisplay.offsetWidth;
+  hugDisplay.classList.add('show');
+  
+  // Enhanced heart burst
+  for (let i = 0; i < 20; i++) {
+    const heart = document.createElement('div');
+    const hearts = ['💕', '💗', '💖', '🫶', '💞', '❤️'];
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.position = 'fixed';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.top = Math.random() * window.innerHeight + 'px';
+    heart.style.fontSize = (25 + Math.random() * 50) + 'px';
+    heart.style.pointerEvents = 'none';
+    heart.style.zIndex = '999';
+    document.body.appendChild(heart);
+    
+    const angle = Math.random() * 360;
+    const dist = 250 + Math.random() * 400;
+    heart.animate([
+      { transform: 'translate(0,0) scale(1) rotate(0deg)', opacity: 1 },
+      { 
+        transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist-350}px) scale(0.2) rotate(${angle}deg)`,
+        opacity: 0 
+      }
+    ], {
+      duration: 1500 + Math.random()*1000,
+      easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+    }).onfinish = () => heart.remove();
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// MUSIC CONTROL
+// ═══════════════════════════════════════════════════════════════
+const audio = document.getElementById('bg-music');
+const musicToggle = document.getElementById('music-toggle');
+const musicInfo = document.getElementById('music-info');
+let isPlaying = false;
+
+musicToggle.addEventListener('click', () => {
+  if (isPlaying) {
+    audio.pause();
+    musicToggle.textContent = '🔇';
+    musicInfo.classList.remove('show');
+  } else {
+    audio.volume = 0.35;
+    audio.play().catch(() => {});
+    musicToggle.textContent = '🔊';
+    musicInfo.classList.add('show');
+    setTimeout(() => musicInfo.classList.remove('show'), 3000);
+  }
+  isPlaying = !isPlaying;
+});
+
+musicToggle.addEventListener('mouseenter', () => {
+  if (isPlaying) {
+    musicInfo.classList.add('show');
+  }
+});
+
+musicToggle.addEventListener('mouseleave', () => {
+  musicInfo.classList.remove('show');
+});
+
+// Auto-start on interaction
+document.body.addEventListener('click', () => {
+  if (!isPlaying && audio.paused) {
+    audio.volume = 0.35;
+    audio.play().catch(() => {});
+    musicToggle.textContent = '🔊';
+    isPlaying = true;
+    musicInfo.classList.add('show');
+    setTimeout(() => musicInfo.classList.remove('show'), 4000);
+  }
+}, { once: true });
+
+</script>
+
+</body>
+</html>
