@@ -777,19 +777,19 @@
 
     @keyframes planeMove {
       0% { 
-        left: 30%; 
-        top: 70%; 
-        transform: translate(-50%, -50%) rotate(-45deg);
+        left: 70%; 
+        top: 55%; 
+        transform: translate(-50%, -50%) rotate(-135deg);
       }
       50% { 
-        left: 50%; 
-        top: 40%; 
-        transform: translate(-50%, -50%) rotate(-30deg) scale(1.1);
+        left: 60%; 
+        top: 35%; 
+        transform: translate(-50%, -50%) rotate(-140deg) scale(1.1);
       }
       100% { 
-        left: 70%; 
-        top: 30%; 
-        transform: translate(-50%, -50%) rotate(-15deg);
+        left: 48%; 
+        top: 25%; 
+        transform: translate(-50%, -50%) rotate(-145deg);
       }
     }
 
@@ -803,7 +803,7 @@
       background: var(--paper);
     }
 
-    /* Music Toggle */
+    /* Music Toggle - ENHANCED */
     .music-toggle {
       position: fixed;
       bottom: 2rem;
@@ -826,6 +826,20 @@
     .music-toggle:hover {
       transform: scale(1.15) rotate(10deg);
       box-shadow: 0 8px 30px rgba(255,154,162,0.6);
+    }
+
+    .music-toggle.playing {
+      animation: musicPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes musicPulse {
+      0%, 100% { 
+        box-shadow: 0 6px 20px rgba(255,179,186,0.4); 
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(255,179,186,0.7),
+                    0 0 30px rgba(255,179,186,0.5); 
+      }
     }
 
     .music-info {
@@ -1179,11 +1193,11 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg" alt="World Map" class="world-map">
         
         <svg class="flight-path" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <path d="M 30,70 Q 50,40 70,30" />
+          <path d="M 70,55 Q 60,35 48,25" />
         </svg>
         
-        <div class="city-marker" data-city="Bengaluru 🏠" style="left: 30%; top: 70%;"></div>
-        <div class="city-marker" data-city="Glasgow ✈️" style="left: 70%; top: 30%;"></div>
+        <div class="city-marker" data-city="Bengaluru 🏠" style="left: 70%; top: 55%;"></div>
+        <div class="city-marker" data-city="Glasgow ✈️" style="left: 48%; top: 25%;"></div>
         
         <div class="plane-icon">✈️</div>
       </div>
@@ -1196,8 +1210,8 @@
 </main>
 
 <!-- Music Toggle -->
-<div class="music-toggle" id="music-toggle">🔊</div>
-<div class="music-info" id="music-info">♫ Until I Found You - Stephen Sanchez</div>
+<div class="music-toggle" id="music-toggle">🎵</div>
+<div class="music-info" id="music-info">♫ Playing your song...</div>
 
 <!-- Photo Modal -->
 <div class="modal" id="photo-modal">
@@ -1224,9 +1238,10 @@
 <!-- Loading -->
 <div class="loading-heart">💕</div>
 
-<!-- Audio -->
-<audio id="bg-music" loop>
+<!-- Audio - CORRECTED TO USE love.mp3 -->
+<audio id="bg-music" loop preload="auto">
   <source src="love.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
 </audio>
 
 <script>
@@ -1293,7 +1308,7 @@ photoData.forEach(({ container, folder, count }) => {
     grid.innerHTML += `
       <div class="photo-item" style="--tilt: ${tilt}deg;">
         <div class="polaroid" data-caption="">
-          <img src="photos/${folder}/${num}.jpg" alt="${folder} memory ${i}" loading="lazy">
+          <img src="photos/${folder}/${num}.jpg" alt="${folder} memory ${i}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'placeholder-photo\\'>Photo ${i}<br>${folder}</div>'">
         </div>
       </div>
     `;
@@ -1483,11 +1498,6 @@ bellButton.addEventListener('click', () => {
       bellButton.classList.add('active');
       bellText.textContent = 'Reminders enabled ✓';
       
-      // In a real implementation, you'd send this to a backend
-      // For now, we'll create a mailto with instructions
-      const subject = encodeURIComponent('Love Letter Reminder Setup');
-      const body = encodeURIComponent(`Hi! Please set up email reminders for ${email} to be sent every 15 days starting from ${new Date(firstOpen).toLocaleDateString()}. Thank you! 💕`);
-      
       alert(`Perfect! I'll remind you at ${email} every 15 days when a new letter is ready. 💌\n\n(In a production setup, this would automatically send emails. For now, you can manually set calendar reminders!)`);
     }
   } else {
@@ -1549,24 +1559,33 @@ document.getElementById('hug-button').addEventListener('click', () => {
 });
 
 // ═══════════════════════════════════════════════════════════════
-// MUSIC CONTROL
+// MUSIC CONTROL - ENHANCED WITH love.mp3
 // ═══════════════════════════════════════════════════════════════
 const audio = document.getElementById('bg-music');
 const musicToggle = document.getElementById('music-toggle');
 const musicInfo = document.getElementById('music-info');
 let isPlaying = false;
 
+// Attempt to preload
+audio.load();
+
 musicToggle.addEventListener('click', () => {
   if (isPlaying) {
     audio.pause();
     musicToggle.textContent = '🔇';
+    musicToggle.classList.remove('playing');
     musicInfo.classList.remove('show');
   } else {
     audio.volume = 0.35;
-    audio.play().catch(() => {});
-    musicToggle.textContent = '🔊';
-    musicInfo.classList.add('show');
-    setTimeout(() => musicInfo.classList.remove('show'), 3000);
+    audio.play().then(() => {
+      musicToggle.textContent = '🎵';
+      musicToggle.classList.add('playing');
+      musicInfo.classList.add('show');
+      setTimeout(() => musicInfo.classList.remove('show'), 3000);
+    }).catch((error) => {
+      console.log('Playback prevented:', error);
+      alert('Click anywhere on the page to start the music 💕');
+    });
   }
   isPlaying = !isPlaying;
 });
@@ -1581,17 +1600,31 @@ musicToggle.addEventListener('mouseleave', () => {
   musicInfo.classList.remove('show');
 });
 
-// Auto-start on interaction
+// Auto-start on first interaction
+let hasInteracted = false;
 document.body.addEventListener('click', () => {
-  if (!isPlaying && audio.paused) {
+  if (!hasInteracted && audio.paused) {
+    hasInteracted = true;
     audio.volume = 0.35;
-    audio.play().catch(() => {});
-    musicToggle.textContent = '🔊';
-    isPlaying = true;
-    musicInfo.classList.add('show');
-    setTimeout(() => musicInfo.classList.remove('show'), 4000);
+    audio.play().then(() => {
+      musicToggle.textContent = '🎵';
+      musicToggle.classList.add('playing');
+      isPlaying = true;
+      musicInfo.classList.add('show');
+      setTimeout(() => musicInfo.classList.remove('show'), 4000);
+    }).catch(() => {
+      // Silent fail if autoplay is still blocked
+    });
   }
 }, { once: true });
+
+// Handle music ending (loop should work, but as fallback)
+audio.addEventListener('ended', () => {
+  if (isPlaying) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+});
 
 </script>
 
